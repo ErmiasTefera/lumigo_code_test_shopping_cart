@@ -3,14 +3,16 @@
   <figure class="px-8 mt-4"><img [src]="product?.image" alt="product image"/></figure>
   <div class="card-body">
     <div class="flex justify-between">
-      <nz-rate [ngModel]="product.rating.rate" nzDisabled></nz-rate>
+      <div>
+        <nz-rate [ngModel]="product.rating.rate" nzDisabled></nz-rate> <span>{{product.rating.count}}</span>
+      </div>
       <div>
         {{product?.price}}$
       </div>
     </div>
 
 
-    <h2 class="card-title">{{product?.title}}</h2>
+    <h2 class="card-title line-clamp-2">{{product?.title}}</h2>
     <p class="line-clamp-3">{{product?.description}}</p>
 
     <div class="card-actions">
