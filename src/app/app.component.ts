@@ -22,6 +22,7 @@ export class AppComponent implements OnInit {
     rating: ['', '', '']
   };
   selected: any;
+  private CART_KEY = 'cartItems';
 
   constructor(private service: ProductService) {
   }
@@ -31,8 +32,16 @@ export class AppComponent implements OnInit {
   }
 
   getProductList() {
+    console.log(JSON.parse(localStorage.getItem(this.CART_KEY)));
+    this.cartItems = JSON.parse(localStorage.getItem(this.CART_KEY)) || [];
     this.service.getProductList().subscribe(products => {
       this.productList = products;
+      if (this.cartItems.length > 0) {
+        this.cartItems.forEach((cartItem: Product) => {
+          const index = this.productList.findIndex(f => cartItem.id === f.id);
+          this.productList[index].quantityInCart = cartItem.quantityInCart;
+        });
+      }
       this.productList$ = [...this.productList];
       this.isLoading = false;
     }, (error => {
@@ -41,7 +50,6 @@ export class AppComponent implements OnInit {
   }
 
   addProductToCart(product: Product) {
-    console.log(product);
     // if product is already in cart, increment the quantity, otherwise add to cart list
     const indexOfProduct = this.cartItems.findIndex(f => f.id === product.id);
     if(indexOfProduct !== -1) {
@@ -49,12 +57,13 @@ export class AppComponent implements OnInit {
     } else {
       this.cartItems.push(product);
     }
+    localStorage.setItem(this.CART_KEY, JSON.stringify(this.cartItems));
   }
 
   onProductRemovedFromCart(product: Product) {
     const productIndex = this.productList.findIndex(f => f.id === product.id);
     this.productList[productIndex].quantityInCart = 0;
-    console.log(this.productList[productIndex])
+    localStorage.setItem(this.CART_KEY, JSON.stringify(this.cartItems));
   }
 
   onSearch(searchStr: any) {

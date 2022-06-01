@@ -3,25 +3,13 @@
 <div *ngIf="isLoading" class="flex justify-center mt-200px">
   <app-loading-card></app-loading-card>
 </div>
-<div class="w-full flex mt-4" *ngIf="!isLoading">
+<div class="w-full flex mt-4" *ngIf="!isLoading" style="min-width: 60%">
 
   <div >
     <!--search-->
     <input type="text" placeholder="Search here" class="input w-full max-w-xs" [(ngModel)]="searchText" (ngModelChange)="onSearch($event)"/>
     <hr>
 
-    <!--Filter-->
-    <h2>Filter</h2>
-    <div>
-      <p>Price</p>
-
-      <mat-radio-group aria-label="Select an option" [(ngModel)]="selected">
-        <mat-radio-button  (chage)="onPriceFilter(0)" value="<200"> <200 </mat-radio-button>
-        <mat-radio-button (chage)="onPriceFilter(1)" value=">200"> >200 </mat-radio-button>
-      </mat-radio-group>
-      
-
-    </div>
     <div class="grid gap-4 grid-cols-2">
 
       <div *ngFor="let product of productList">
