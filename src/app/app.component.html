@@ -21,7 +21,13 @@
 
           <div >
             <!--search-->
-            <input type="text" placeholder="Search here" class="input w-full max-w-xs" [(ngModel)]="searchText" (ngModelChange)="onSearch($event)"/>
+            <nz-input-group [nzSuffix]="suffixIconSearch">
+              <input type="text" nz-input placeholder="Search here" [(ngModel)]="searchText" (ngModelChange)="onSearch($event)"/>
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+              <i nz-icon nzType="search"></i>
+            </ng-template>
+
             <hr>
 
             <div class="grid gap-4 grid-cols-2">

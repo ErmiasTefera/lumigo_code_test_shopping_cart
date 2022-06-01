@@ -19,6 +19,7 @@ import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import {NzFormModule} from "ng-zorro-antd/form";
 import {NzRateModule} from "ng-zorro-antd/rate";
+import {NzInputModule} from "ng-zorro-antd/input";
 
 registerLocaleData(en);
 
@@ -41,7 +42,8 @@ registerLocaleData(en);
         NzLayoutModule,
         NzMenuModule,
       NzFormModule,
-      NzRateModule
+      NzRateModule,
+      NzInputModule
     ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent]
