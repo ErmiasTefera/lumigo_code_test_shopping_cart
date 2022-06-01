@@ -1,34 +1,48 @@
+<nz-layout class="app-layout">
 
-
-<div *ngIf="isLoading" class="flex">
-  <div class="grid gap-4 grid-cols-2">
-    <app-loading-card></app-loading-card>
-    <app-loading-card></app-loading-card>
-    <app-loading-card></app-loading-card>
-    <app-loading-card></app-loading-card>
-  </div>
-</div>
-<div class="w-full flex mt-4" *ngIf="!isLoading" style="min-width: 60%">
-
-  <div >
-    <!--search-->
-    <input type="text" placeholder="Search here" class="input w-full max-w-xs" [(ngModel)]="searchText" (ngModelChange)="onSearch($event)"/>
-    <hr>
-
-    <div class="grid gap-4 grid-cols-2">
-
-      <div *ngFor="let product of productList">
-        <app-product [product]="product" (onAddToCart)="addProductToCart($event)"></app-product>
+  <nz-layout>
+    <nz-header>
+      <div class="app-header">
       </div>
-    </div>
-  </div>
+    </nz-header>
+    <nz-content>
+      <div class="inner-content">
 
 
-  <div>
-    <!-- Cart-->
-    <div class="flex">
-      <app-cart [cartItems]="cartItems" (onItemRemoved)="onProductRemovedFromCart($event)"></app-cart>
-    </div>
-  </div>
+        <div *ngIf="isLoading" class="flex">
+          <div class="grid gap-4 grid-cols-2">
+            <app-loading-card></app-loading-card>
+            <app-loading-card></app-loading-card>
+            <app-loading-card></app-loading-card>
+            <app-loading-card></app-loading-card>
+          </div>
+        </div>
+        <div class="w-full flex mt-4" *ngIf="!isLoading" style="min-width: 60%">
 
-</div>
+          <div >
+            <!--search-->
+            <input type="text" placeholder="Search here" class="input w-full max-w-xs" [(ngModel)]="searchText" (ngModelChange)="onSearch($event)"/>
+            <hr>
+
+            <div class="grid gap-4 grid-cols-2">
+
+              <div *ngFor="let product of productList">
+                <app-product [product]="product" (onAddToCart)="addProductToCart($event)"></app-product>
+              </div>
+            </div>
+          </div>
+
+
+          <div>
+            <!-- Cart-->
+            <div class="flex">
+              <app-cart [cartItems]="cartItems" (onItemRemoved)="onProductRemovedFromCart($event)"></app-cart>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
