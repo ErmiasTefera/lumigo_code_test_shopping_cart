@@ -1,0 +1,27 @@
+
+<div class="card w-96 h-96 bg-base-100 shadow-xl">
+  <figure class="px-8 mt-4"><img [src]="product?.image" alt="product image"/></figure>
+  <div class="card-body">
+    <div class="flex justify-between">
+      <div class="rating">
+        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" checked />
+        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+        <input type="radio" name="rating-2" class="mask mask-star-2 bg-orange-400" />
+      </div>
+      <div>
+        {{product?.price}}$
+      </div>
+    </div>
+
+
+    <h2 class="card-title">{{product?.title}}</h2>
+    <p class="line-clamp-3">{{product?.description}}</p>
+
+    <div class="card-actions">
+      <input type="number" min="1" placeholder="Quantity" [(ngModel)]="product.quantityInCart"/>
+      <button type="button" class="cursor-pointer" [disabled]="!product.quantityInCart" (click)="addToCart()"><i class="fa fa-shopping-cart"></i></button>
+    </div>
+  </div>
+</div>
