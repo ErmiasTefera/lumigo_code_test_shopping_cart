@@ -1,7 +1,12 @@
 
 
-<div *ngIf="isLoading" class="flex justify-center mt-200px">
-  <app-loading-card></app-loading-card>
+<div *ngIf="isLoading" class="flex">
+  <div class="grid gap-4 grid-cols-2">
+    <app-loading-card></app-loading-card>
+    <app-loading-card></app-loading-card>
+    <app-loading-card></app-loading-card>
+    <app-loading-card></app-loading-card>
+  </div>
 </div>
 <div class="w-full flex mt-4" *ngIf="!isLoading" style="min-width: 60%">
 
