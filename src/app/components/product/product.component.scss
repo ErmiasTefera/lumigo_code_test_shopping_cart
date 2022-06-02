@@ -1,9 +1,22 @@
 
 img {
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
 }
 
 .card-title {
   margin-bottom: 0;
+}
+
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+
+.container {
+  width: 355px;
+  height: 435px;
 }

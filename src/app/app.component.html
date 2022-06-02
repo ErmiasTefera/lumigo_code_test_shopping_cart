@@ -8,7 +8,6 @@
     <nz-content>
       <div class="inner-content">
 
-
         <div *ngIf="isLoading" class="flex">
           <div class="grid gap-4 grid-cols-2">
             <app-loading-card></app-loading-card>
@@ -17,20 +16,43 @@
             <app-loading-card></app-loading-card>
           </div>
         </div>
-        <div class="w-full flex mt-4" *ngIf="!isLoading" style="min-width: 60%">
 
-          <div >
+        <div class="w-full flex justify-between mt-4" *ngIf="!isLoading">
+
+          <div class="product-list-container">
             <!--search-->
             <nz-input-group [nzSuffix]="suffixIconSearch">
-              <input type="text" nz-input placeholder="Search here" [(ngModel)]="searchText" (ngModelChange)="onSearch($event)"/>
+              <input type="text" nz-input placeholder="Search here" [(ngModel)]="searchText"
+                     (ngModelChange)="onSearch($event)"/>
             </nz-input-group>
             <ng-template #suffixIconSearch>
               <i nz-icon nzType="search"></i>
             </ng-template>
 
             <hr>
+            <!--Filters-->
+            <div class="filter-container card bg-base-100 shadow-xl w-full">
+              <div class="flex">
+                <nz-input-group nzCompact>
+                  <span>Price</span>
+                  <div class="price-input">
+                    <input nz-input placeholder="Min" min="1" type="number" [(ngModel)]="filter.price.min"/>
+                    <input nz-input placeholder="Max" [min]="filter.price.min" type="number" [(ngModel)]="filter.price.max"/>
+                  </div>
+                </nz-input-group>
 
-            <div class="grid gap-4 grid-cols-2">
+
+                <nz-input-group nzCompact>
+                  <span>Rating</span><br>
+                  <nz-rate [(ngModel)]="filter.rating"></nz-rate>
+                </nz-input-group>
+
+                <button nz-button nzType="primary" (click)="applyFilter()">Filter</button>
+                <button nz-button  class="ml-4" (click)="resetFilter()">Reset Filter</button>
+              </div>
+            </div>
+
+            <div class="grid gap-4 md:grid-cols-2">
 
               <div *ngFor="let product of productList">
                 <app-product [product]="product" (onAddToCart)="addProductToCart($event)"></app-product>

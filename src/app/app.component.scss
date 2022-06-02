@@ -76,3 +76,23 @@ nz-content {
 .inner-content {
   padding: 24px;
   background: #fff;}
+
+.filter-container {
+  border: 1px #f0f2f5 solid;
+  margin-bottom: 12px;
+  margin-top: 12px;
+  padding: 24px;
+}
+.price-input {
+  display: flex;
+  justify-content: space-between;
+  width: 210px;
+}
+.price-input input {
+  width: 100px;
+}
+
+.product-list-container {
+  min-width: 60%;
+  width: 60%;
+}

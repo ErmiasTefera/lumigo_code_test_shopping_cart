@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ProductService} from "./product.service";
 import {Product} from "./models/Product";
 import {CartComponent} from "./components/cart/cart.component";
@@ -18,10 +18,12 @@ export class AppComponent implements OnInit {
   @ViewChild(CartComponent) cartComponent: CartComponent;
   searchText: any;
   filter = {
-    price: ['<100', '>200'],
-    rating: ['', '', '']
+    price: {
+      min: null,
+      max: null
+    },
+    rating: null,
   };
-  selected: any;
   private CART_KEY = 'cartItems';
 
   constructor(private service: ProductService) {
@@ -32,7 +34,6 @@ export class AppComponent implements OnInit {
   }
 
   getProductList() {
-    console.log(JSON.parse(localStorage.getItem(this.CART_KEY)));
     this.cartItems = JSON.parse(localStorage.getItem(this.CART_KEY)) || [];
     this.service.getProductList().subscribe(products => {
       this.productList = products;
@@ -44,7 +45,7 @@ export class AppComponent implements OnInit {
       }
       this.productList$ = [...this.productList];
       this.isLoading = false;
-    }, (error => {
+    }, (() => {
       this.isLoading = false;
     }));
   }
@@ -52,7 +53,7 @@ export class AppComponent implements OnInit {
   addProductToCart(product: Product) {
     // if product is already in cart, increment the quantity, otherwise add to cart list
     const indexOfProduct = this.cartItems.findIndex(f => f.id === product.id);
-    if(indexOfProduct !== -1) {
+    if (indexOfProduct !== -1) {
       this.cartItems[indexOfProduct].quantityInCart = product.quantityInCart;
     } else {
       this.cartItems.push(product);
@@ -70,21 +71,27 @@ export class AppComponent implements OnInit {
     this.productList = this.productList$.filter(f => f.title.toLowerCase().includes(searchStr.toLocaleString()));
   }
 
-  onPriceFilter(filter: number) {
-    console.log(filter)
-    console.log(this.filter.price[filter]);
-    if (filter === 0) {
-      console.log('p1')
-      console.log(this.productList)
-      this.productList = this.productList$.filter(f => f.price < 100);
-    }
-    if (filter === 1) {
-      console.log('p2')
-      this.productList = this.productList$.filter(f => f.price > 200);
+  resetFilter() {
+    this.filter.rating = 0;
+    this.filter.price.min = null;
+    this.filter.price.max = null;
+    this.productList = [...this.productList$];
+  }
+
+  applyFilter() {
+    let filteredProducts = [...this.productList$];
+    // filter by rating
+    if (this.filter.rating) {
+      filteredProducts = this.productList$.filter(f => Number.parseInt(f.rating.rate.toString()) === this.filter.rating);
     }
 
-    else {
-      this.productList = this.productList$;
-    }
+    // filter by price
+    filteredProducts = filteredProducts.filter(f => {
+      const isMinValid = (this.filter.price.min ? (f.price > this.filter.price.min) : true);
+      const isMaxValid = this.filter.price.max ? (f.price < this.filter.price.max) : true;
+      console.log(f.price, isMinValid, isMaxValid, isMinValid && isMaxValid);
+      return isMinValid && isMaxValid;
+    });
+    this.productList = [...filteredProducts];
   }
 }
