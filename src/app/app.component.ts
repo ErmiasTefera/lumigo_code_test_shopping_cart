@@ -68,6 +68,8 @@ export class AppComponent implements OnInit {
   }
 
   onSearch(searchStr: any) {
+    console.log(searchStr);
+    console.log(this.productList$);
     this.productList = this.productList$.filter(f => f.title.toLowerCase().includes(searchStr.toLocaleString()));
   }
 
@@ -75,21 +77,21 @@ export class AppComponent implements OnInit {
     this.filter.rating = 0;
     this.filter.price.min = null;
     this.filter.price.max = null;
-    this.productList = [...this.productList$];
+    this.onSearch(this.searchText);
   }
 
   applyFilter() {
-    let filteredProducts = [...this.productList$];
+    this.onSearch(this.searchText);
+    let filteredProducts = [...this.productList];
     // filter by rating
     if (this.filter.rating) {
-      filteredProducts = this.productList$.filter(f => Number.parseInt(f.rating.rate.toString()) === this.filter.rating);
+      filteredProducts = filteredProducts.filter(f => Number.parseInt(f.rating.rate.toString()) === this.filter.rating);
     }
 
     // filter by price
     filteredProducts = filteredProducts.filter(f => {
       const isMinValid = (this.filter.price.min ? (f.price > this.filter.price.min) : true);
       const isMaxValid = this.filter.price.max ? (f.price < this.filter.price.max) : true;
-      console.log(f.price, isMinValid, isMaxValid, isMinValid && isMaxValid);
       return isMinValid && isMaxValid;
     });
     this.productList = [...filteredProducts];
